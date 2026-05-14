@@ -1,0 +1,6 @@
+node_modules/
+dist/
+store-assets/raw-captures/
+store-assets/x-full/
+x-dom-compare.json
+*.log
