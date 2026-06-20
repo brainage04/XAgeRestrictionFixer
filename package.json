@@ -1,7 +1,7 @@
 {
   "name": "x-age-restriction-fixer",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "commonjs",
   "scripts": {
     "build:zip": "node scripts/build-extension-zip.js",
@@ -9,7 +9,7 @@
     "render:store-assets": "node scripts/render-store-assets.js",
     "reload:extension": "node scripts/reload-extension.js"
   },
-  "dependencies": {
-    "chrome-remote-interface": "0.33.3"
+  "devDependencies": {
+    "chrome-remote-interface": "^0.33.3"
   }
 }

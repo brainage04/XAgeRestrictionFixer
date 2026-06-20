@@ -31,7 +31,7 @@ To build the Chrome Web Store upload package, run:
 npm run build:zip
 ```
 
-This writes `dist/x-age-restriction-fixer-1.0.0.zip` with only the runtime extension files.
+This writes `dist/x-age-restriction-fixer-1.0.1.zip` with only the runtime extension files.
 
 To regenerate the Chrome Web Store listing images, run:
 
