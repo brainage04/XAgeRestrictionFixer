@@ -4,3 +4,4 @@ store-assets/raw-captures/
 store-assets/x-full/
 x-dom-compare.json
 *.log
+*.pem
