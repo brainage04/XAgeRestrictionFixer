@@ -54,16 +54,20 @@ for (const output of outputs) {
 
   fs.mkdirSync(path.dirname(pngPath), { recursive: true });
 
-  execFileSync(chrome, [
-    "--headless=new",
-    "--disable-gpu",
-    "--no-sandbox",
-    "--hide-scrollbars",
-    "--force-device-scale-factor=1",
-    `--window-size=${output.width},${output.height}`,
-    `--screenshot=${pngPath}`,
-    pathToFileURL(htmlPath).href
-  ], {
-    stdio: "inherit"
-  });
+  execFileSync(
+    chrome,
+    [
+      "--headless=new",
+      "--disable-gpu",
+      "--no-sandbox",
+      "--hide-scrollbars",
+      "--force-device-scale-factor=1",
+      `--window-size=${output.width},${output.height}`,
+      `--screenshot=${pngPath}`,
+      pathToFileURL(htmlPath).href
+    ],
+    {
+      stdio: "inherit"
+    }
+  );
 }

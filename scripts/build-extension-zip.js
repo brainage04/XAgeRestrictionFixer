@@ -19,13 +19,7 @@ ensureZip();
 fs.mkdirSync(distDir, { recursive: true });
 fs.rmSync(output, { force: true });
 
-execFileSync("zip", [
-  "-r",
-  output,
-  "manifest.json",
-  "icons",
-  "src"
-], {
+execFileSync("zip", ["-r", output, "manifest.json", "icons", "src"], {
   cwd: root,
   stdio: "inherit"
 });

@@ -36,10 +36,7 @@ function casesFromArgs() {
       return [`case-${index + 1}`, arg];
     }
 
-    return [
-      arg.slice(0, separator) || `case-${index + 1}`,
-      arg.slice(separator + 1)
-    ];
+    return [arg.slice(0, separator) || `case-${index + 1}`, arg.slice(separator + 1)];
   });
 }
 
@@ -177,19 +174,29 @@ function snapshotPage(label) {
   }
 
   const articles = Array.from(document.querySelectorAll("article"));
-  const article = articles.find((candidate) => {
-    return Array.from(candidate.querySelectorAll("a[href]"))
-      .some((link) => link.href.includes(`/status/${statusId}`));
-  }) || articles[0] || null;
+  const article =
+    articles.find((candidate) => {
+      return Array.from(candidate.querySelectorAll("a[href]")).some((link) =>
+        link.href.includes(`/status/${statusId}`)
+      );
+    }) ||
+    articles[0] ||
+    null;
 
   const blocker = article
     ? Array.from(article.querySelectorAll("div, span")).find((node) => {
-      return /age-restricted adult content|verify your age|to view this media/i.test(node.innerText || "");
-    })
+        return /age-restricted adult content|verify your age|to view this media/i.test(
+          node.innerText || ""
+        );
+      })
     : null;
 
   const mediaNodes = article
-    ? Array.from(article.querySelectorAll('[data-testid="tweetPhoto"], [data-testid="videoPlayer"], [data-testid="placementTracking"], img, video'))
+    ? Array.from(
+        article.querySelectorAll(
+          '[data-testid="tweetPhoto"], [data-testid="videoPlayer"], [data-testid="placementTracking"], img, video'
+        )
+      )
     : [];
 
   const blockerAncestors = [];

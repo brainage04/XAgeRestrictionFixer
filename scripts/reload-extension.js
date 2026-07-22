@@ -57,9 +57,7 @@ function reloadExtensionInPage(extensionId, extensionName) {
     const id = candidate.getAttribute("id") || candidate.id || "";
     const name = candidate.shadowRoot?.querySelector("#name")?.innerText || "";
 
-    return extensionId
-      ? id === extensionId
-      : name === extensionName;
+    return extensionId ? id === extensionId : name === extensionName;
   });
 
   if (!item) {
@@ -107,7 +105,12 @@ async function main() {
     await Promise.all([Page.enable(), Runtime.enable()]);
     await delay(LOAD_DELAY_MS);
 
-    const reloadResult = await runInPage(Runtime, reloadExtensionInPage, EXTENSION_ID, EXTENSION_NAME);
+    const reloadResult = await runInPage(
+      Runtime,
+      reloadExtensionInPage,
+      EXTENSION_ID,
+      EXTENSION_NAME
+    );
 
     if (!reloadResult?.ok) {
       console.error(JSON.stringify(reloadResult, null, 2));

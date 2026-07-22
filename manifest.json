@@ -11,13 +11,8 @@
   },
   "content_scripts": [
     {
-      "matches": [
-        "https://x.com/*",
-        "https://twitter.com/*"
-      ],
-      "js": [
-        "src/page-probe.js"
-      ],
+      "matches": ["https://x.com/*", "https://twitter.com/*"],
+      "js": ["src/page-probe.js"],
       "run_at": "document_start",
       "world": "MAIN"
     }

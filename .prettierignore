@@ -1,0 +1,5 @@
+node_modules/
+dist/
+store-assets/**/*-captures/
+store-assets/raw-captures/
+store-assets/x-full/
