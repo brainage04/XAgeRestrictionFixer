@@ -1,0 +1,37 @@
+plugins {
+    id "com.android.application"
+}
+
+android {
+    namespace "app.xagefixer"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "app.xagefixer"
+        minSdk 26
+        targetSdk 35
+        versionCode 101
+        versionName "1.0.1"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+    }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+}
+
+dependencies {
+    compileOnly project(":xposed-api-stubs")
+    testImplementation "junit:junit:4.13.2"
+}

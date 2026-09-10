@@ -5,3 +5,5 @@ store-assets/x-full/
 x-dom-compare.json
 *.log
 *.pem
+android-patch/**/build/
+android-patch/.gradle/
