@@ -2,15 +2,15 @@
 
 X Age Restriction Fixer does not collect, store, sell, or transmit user data.
 
-The extension runs only on `x.com` and `twitter.com`. It modifies X's in-page frontend data handling so X can render media with its own native components for accounts that already have access to that media.
+The browser extension runs only on `x.com` and `twitter.com`. The Android build is an LSPosed/Xposed module that runs only inside the targeted `com.twitter.android` main process. Both modify X's in-page or in-process frontend data handling so X can render media with its own native components for accounts that already have access to that media.
 
-The extension does not:
+Neither component:
 
-- collect personal information
-- collect browsing history
-- collect cookies, authentication headers, request bodies, or API payloads
-- send data to external servers
-- use analytics
-- execute remotely hosted code
+- collects personal information
+- collects browsing history
+- collects cookies, authentication headers, request bodies, or API payloads
+- sends data to external servers
+- uses analytics
+- executes remotely hosted code
 
-All extension code runs locally in the browser.
+The Android module requests no network permission. All code runs locally; matching response bodies are transformed in memory and discarded after X consumes them.

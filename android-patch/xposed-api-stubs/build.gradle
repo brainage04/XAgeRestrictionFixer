@@ -1,0 +1,11 @@
+plugins {
+    id "java-library"
+}
+
+group = "app.xagefixer"
+version = "1.0.1"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}

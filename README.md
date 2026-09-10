@@ -52,10 +52,27 @@ npm run render:store-assets
 
 That command uses local headless Chrome to render the sanitized listing pages in `store-assets/`.
 
+## Android patch
+
+The repository also contains an LSPosed/Xposed module for the official Android X app. It hooks the app's response-body and JSON parser boundaries, applies the same `TweetWithVisibilityResults` normalization, and leaves X's native media renderers in control.
+
+This is a module APK, not a re-signed copy of the proprietary X APK. It requires a rooted device with LSPosed or another compatible Xposed framework. Enable the module for `com.twitter.android`, force-stop X, and relaunch it.
+
+Build and test the installable debug APK with Gradle 9.1 or newer:
+
+```sh
+./android-patch/gradlew -p android-patch testDebugUnitTest assembleDebug
+```
+
+The APK is written to `android-patch/app/build/outputs/apk/debug/app-debug.apk`. The module does not request network permission and does not log, store, or transmit response data.
+
+The Android implementation is intentionally limited to the official `com.twitter.android` main process and to responses containing X's visibility wrapper. It is intended for accounts that already pass X's access checks; it does not obtain access or credentials.
+
 ## Behavior
 
-- Runs only on `x.com` and `twitter.com`.
-- Runs at `document_start`.
+- Runs only on `x.com` and `twitter.com` in the browser extension.
+- Runs at `document_start` in the browser extension.
+- Runs only in the official `com.twitter.android` process in the Android module.
 - Converts `TweetWithVisibilityResults` wrappers into the wrapped `Tweet` objects before X consumes API JSON.
 - Lets X render media with its own native components.
 - Does not add custom media cards, video controls, or diagnostic popups.
@@ -63,9 +80,17 @@ That command uses local headless Chrome to render the sanitized listing pages in
 
 ## Files
 
-- `manifest.json`: Chrome extension manifest.
+- `manifest.json`: Chrome Manifest V3 manifest.
+- `src/page-probe.js`: Browser main-world API normalization.
+- `android-patch/app/src/main/java/app/xagefixer/XAgeRestrictionFixerHook.java`: Xposed entry point and Android parser hooks.
+- `android-patch/app/src/main/java/app/xagefixer/JsonNormalizer.java`: Android JSON normalization.
+- `android-patch/app/src/main/AndroidManifest.xml`: Module metadata and launcher activity.
+- `android-patch/app/src/main/assets/xposed_init`: Xposed entry point declaration.
+- `android-patch/`: Android Gradle project.
+
+## Extension files
+
 - `icons/`: Extension icon source and generated PNG assets.
-- `src/page-probe.js`: Main-world API normalization.
 - `scripts/build-extension-zip.js`: Chrome Web Store ZIP builder.
 - `scripts/compare-x-dom.js`: Optional CDP helper for manually comparing direct status DOM snapshots.
 - `scripts/render-store-assets.js`: Local Chrome renderer for Web Store listing images.

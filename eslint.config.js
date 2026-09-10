@@ -3,7 +3,7 @@ const globals = require("globals");
 
 module.exports = [
   {
-    ignores: ["dist/**", "node_modules/**"]
+    ignores: ["dist/**", "node_modules/**", "android-patch/**/build/**"]
   },
   js.configs.recommended,
   {
