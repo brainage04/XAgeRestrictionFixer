@@ -54,17 +54,22 @@ That command uses local headless Chrome to render the sanitized listing pages in
 
 ## Android patch
 
-The repository also contains an LSPosed/Xposed module for the official Android X app. It hooks the app's response-body and JSON parser boundaries, applies the same `TweetWithVisibilityResults` normalization, and leaves X's native media renderers in control.
+The repository also contains an Xposed module for the official Android X app. It hooks the app's response-body and JSON parser boundaries, applies the same `TweetWithVisibilityResults` normalization, and leaves X's native media renderers in control.
 
-This is a module APK, not a re-signed copy of the proprietary X APK. It requires a rooted device with LSPosed or another compatible Xposed framework. Enable the module for `com.twitter.android`, force-stop X, and relaunch it.
+The module is loaded **without root**: the X APK is patched with [LSPatch](https://github.com/JingMatrix/LSPatch), which embeds the module and the hook engine into that one app. Nothing else on the device is modified, and no bootloader unlock or system-level framework is involved.
 
-Build and test the installable debug APK with Gradle 9.1 or newer:
+Build the module, then patch a merged copy of the installed X APK:
 
 ```sh
 ./android-patch/gradlew -p android-patch testDebugUnitTest assembleDebug
+./android-patch/build-lspatch.sh            # see the script for env overrides
 ```
 
-The APK is written to `android-patch/app/build/outputs/apk/debug/app-debug.apk`. The module does not request network permission and does not log, store, or transmit response data.
+The script pulls X's split APKs from the device, merges them, embeds the module, and signs the result with the stable keystore so a later patch installs over the current one. Installing requires uninstalling the Play build first (different signature), after which X has to be logged into again — Google sign-in will not work in a re-signed app, so use username/password with 2FA.
+
+Because the patch is applied to an APK, each X update needs a re-run of the script; the app's own updates must stay disabled. The stock split APKs are kept next to the patch as the rollback path.
+
+The module APK itself is written to `android-patch/app/build/outputs/apk/debug/app-debug.apk`. The module does not request network permission and does not log, store, or transmit response data.
 
 The Android implementation is intentionally limited to the official `com.twitter.android` main process and to responses containing X's visibility wrapper. It is intended for accounts that already pass X's access checks; it does not obtain access or credentials.
 
