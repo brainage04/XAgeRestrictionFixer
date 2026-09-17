@@ -33,8 +33,23 @@ done
 for jar in "$LSPATCH_JAR" "$APKEDITOR_JAR"; do
   [[ -f "$jar" ]] || { echo "missing jar: $jar" >&2; exit 1; }
 done
-[[ -f "$KEYSTORE" && -f "$KEYSTORE_CREDENTIALS" ]] ||
-  { echo "missing keystore or credentials: $KEYSTORE" >&2; exit 1; }
+[[ -f "$KEYSTORE" && -f "$KEYSTORE_CREDENTIALS" ]] || {
+  cat >&2 <<EOF
+Missing signing key: $KEYSTORE
+
+Create one (and a credentials file next to it holding "storepass:", "alias:" and
+"keypass:" lines) with:
+
+  mkdir -p "\$(dirname "$KEYSTORE")"
+  keytool -genkeypair -keystore "$KEYSTORE" -alias xagefixer -keyalg RSA \\
+    -keysize 4096 -validity 10950 -storepass 'CHOOSE-A-PASSWORD' \\
+    -keypass 'CHOOSE-A-PASSWORD' -dname "CN=X Age Restriction Fixer"
+
+Keep it: the same key makes later patches install over the current app.
+
+EOF
+  exit 1
+}
 
 if [[ -z "${ADB_SERIAL:-}" ]]; then
   ADB_SERIAL="$(adb devices | awk '$2 == "device" { print $1; exit }')"

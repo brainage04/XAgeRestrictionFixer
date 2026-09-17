@@ -2,7 +2,7 @@
 
 X Age Restriction Fixer does not collect, store, sell, or transmit user data.
 
-The browser extension runs only on `x.com` and `twitter.com`. The Android build is an LSPosed/Xposed module that runs only inside the targeted `com.twitter.android` main process. Both modify X's in-page or in-process frontend data handling so X can render media with its own native components for accounts that already have access to that media.
+The browser extension runs only on `x.com` and `twitter.com`. The Android build is an Xposed module that runs only inside the targeted `com.twitter.android` main process, loaded there by [LSPatch](https://github.com/JingMatrix/LSPatch) when that app is patched on your own device. Both modify X's in-page or in-process frontend data handling so X can render media with its own native components for accounts that already have access to that media.
 
 Neither component:
 
