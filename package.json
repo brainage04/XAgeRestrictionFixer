@@ -7,8 +7,7 @@
     "node": "^20.19.0 || ^22.13.0 || >=24"
   },
   "scripts": {
-    "build:android": "./android-patch/gradlew -p android-patch testDebugUnitTest assembleDebug",
-    "build:lspatch": "./android-patch/build-lspatch.sh",
+    "build:android": "./android-patch/gradlew -p android-patch --no-daemon :extensions:extension:testDebugUnitTest :patches:buildAndroid",
     "build:zip": "node scripts/build-extension-zip.js",
     "check": "npm run lint && npm run format:check",
     "compare:x-dom": "node scripts/compare-x-dom.js",

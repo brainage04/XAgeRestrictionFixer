@@ -25,12 +25,13 @@ To remove it later, click **Remove** on the same page.
 
 ## Install in the Android app
 
-There is no one-tap install for the Android app. X's own app has to be patched on your
-phone, which needs a computer, a USB cable and about ten minutes. The full instructions,
-written out step by step, are in [android-patch/README.md](android-patch/README.md).
+There is no Play Store install for the Android app. X's own app is patched on the phone with
+[Morphe Manager](https://morphe.software) and this repository's patch bundle, then installed
+over the X you already have. The full instructions, including how to keep your login, are in
+[android-patch/README.md](android-patch/README.md).
 
-If that is more than you want to do, use X in a browser with the extension above instead —
-it fixes the same thing.
+If that is more than you want to do, use X in a browser with the extension above instead; it
+fixes the same thing.
 
 ## For developers
 
@@ -80,32 +81,30 @@ That command uses local headless Chrome to render the sanitized listing pages in
 
 ### Android patch
 
-The repository also contains an Xposed module for the official Android X app. It hooks the
-app's response-body and JSON parser boundaries, applies the same
-`TweetWithVisibilityResults` normalization, and leaves X's native media renderers in
-control.
-
-The module is loaded **without root**: the X APK is patched with
-[LSPatch](https://github.com/JingMatrix/LSPatch), which embeds the module and the hook
-engine into that one app. Nothing else on the device is modified, and no bootloader unlock
-or system-level framework is involved.
+`android-patch/` is a [Morphe](https://morphe.software) patch bundle ("X Age Restriction Fixer
+patches", GPLv3) for the official Android X app. Its one patch hooks
+`OkHttpClient.Builder.build()` and adds an interceptor that applies the same
+`TweetWithVisibilityResults` normalization to X's API responses before the app parses them,
+leaving X's native media renderers in control. No root is needed: the patched X is built on the
+phone by Morphe Manager (or on a PC with the Morphe CLI) and installed over the existing X.
 
 ```sh
-npm run build:android   # build and unit-test the module
-npm run build:lspatch   # pull X from the device, merge, embed the module, sign
+npm run build:android   # unit-test the extension code and build the .mpp bundle
 ```
 
-Installing the result replaces the Play build, so X is signed in again afterwards with a
-username and password (Google sign-in cannot work in a re-signed app). Each X update needs
-a re-run of `build:lspatch`; keep Play auto-updates off for X. See
-[android-patch/README.md](android-patch/README.md) for the details, including the signing
-key, the rollback copy of the stock APKs, and what the patched app logs on startup.
+The build first needs the Morphe Gradle plugin and patcher in Maven local
+(`android-patch/scripts/install-morphe-tooling.sh`). The patched app is re-signed with your
+own key, so it must be signed with the same key as the X it replaces and installed as an
+update; keep Play auto-updates off for X. See [android-patch/README.md](android-patch/README.md)
+for installing with Morphe Manager, the signing key, patching on a PC, publishing, and what
+the patched app logs.
 
 ### Behavior
 
 - Runs only on `x.com` and `twitter.com` in the browser extension.
 - Runs at `document_start` in the browser extension.
-- Runs only in the official `com.twitter.android` process in the Android module.
+- Runs only on responses from `x.com` and `twitter.com` hosts inside the official
+  `com.twitter.android` app in the Android patch.
 - Converts `TweetWithVisibilityResults` wrappers into the wrapped `Tweet` objects before X
   consumes API JSON.
 - Lets X render media with its own native components.
@@ -116,14 +115,12 @@ key, the rollback copy of the stock APKs, and what the patched app logs on start
 
 - `manifest.json`: Chrome Manifest V3 manifest.
 - `src/page-probe.js`: Browser main-world API normalization.
-- `android-patch/app/src/main/java/app/xagefixer/XAgeRestrictionFixerHook.java`: Xposed
-  entry point and Android parser hooks.
-- `android-patch/app/src/main/java/app/xagefixer/JsonNormalizer.java`: Android JSON
-  normalization.
-- `android-patch/app/src/main/AndroidManifest.xml`: Module metadata and launcher activity.
-- `android-patch/app/src/main/assets/xposed_init`: Xposed entry point declaration.
-- `android-patch/build-lspatch.sh`: builds and signs the patched Android app.
-- `android-patch/`: Android Gradle project.
+- `android-patch/patches/`: the Morphe patch (Kotlin) that hooks
+  `OkHttpClient.Builder.build()`.
+- `android-patch/extensions/extension/src/main/java/app/xagefixer/extension/`: the code added
+  to X: the OkHttp interceptor and the Android JSON normalization.
+- `android-patch/patches-bundle.json`: the patch source Morphe Manager reads.
+- `android-patch/`: the Morphe patch bundle Gradle project.
 
 ### Extension files
 

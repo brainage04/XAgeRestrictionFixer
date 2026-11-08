@@ -1,0 +1,16 @@
+[versions]
+# Keep in step with scripts/install-morphe-tooling.sh, which reads this line.
+morphe-patcher = "2.3.0"
+#noinspection GradleDependency
+smali = "4220ae75f7"
+# The OkHttp version X ships (its user agent says okhttp/4.12.0). Compile-only: the app's own copy is used.
+okhttp = "4.12.0"
+junit = "4.13.2"
+
+[libraries]
+# Gradle plugins adds the dependency during build, this declaration is here only for dependabot to provide updates.
+#noinspection UnusedVersionCatalogEntry
+morphe-patcher = { module = "app.morphe:morphe-patcher", version.ref = "morphe-patcher" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
+okhttp-mockwebserver = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+junit = { module = "junit:junit", version.ref = "junit" }
