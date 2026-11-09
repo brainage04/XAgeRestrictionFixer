@@ -24,6 +24,12 @@ should work for every X version.
 It logs under the tag `XAgeFix`: one line when it is installed in the app's process, and one
 line for each response it rewrites.
 
+Tested on 2026-11-09 with patches 1.0.0 on X 12.25.2-prod.01 (Samsung Galaxy S21, Android 15,
+not rooted), patched on the PC and installed with `adb install -r` over the logged-in X: the
+age-restricted post <https://x.com/takeru557/status/2033215789873180870> shows its image instead
+of the placeholder, and the X accounts stayed logged in. Patching in Morphe Manager on the phone
+has not been tried yet.
+
 ## Before you start: logins
 
 Read this first, it is the one way to lose your X account session.
