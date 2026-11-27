@@ -8,6 +8,8 @@ It does not unlock anything you do not already have access to. It does not touch
 account, your login, or X's servers: it repairs the data shape X's own page or app receives,
 so X's normal media players can run.
 
+See [PRIVACY.md](./PRIVACY.md) for the privacy policy.
+
 ## Install in Chrome
 
 Install it from the
@@ -103,7 +105,7 @@ update; keep Play auto-updates off for X. See [android-patch/README.md](android-
 for installing with Morphe Manager, the signing key, patching on a PC, publishing, and what
 the patched app logs.
 
-### Behavior
+### How it works
 
 - Runs only on `x.com` and `twitter.com` in the browser extension.
 - Runs at `document_start` in the browser extension.
@@ -119,15 +121,6 @@ the patched app logs.
 
 - `manifest.json`: Chrome Manifest V3 manifest.
 - `src/page-probe.js`: Browser main-world API normalization.
-- `android-patch/patches/`: the Morphe patch (Kotlin) that hooks
-  `OkHttpClient.Builder.build()`.
-- `android-patch/extensions/extension/src/main/java/app/xagefixer/extension/`: the code added
-  to X: the OkHttp interceptor and the Android JSON normalization.
-- `android-patch/patches-bundle.json`: the patch source Morphe Manager reads.
-- `android-patch/`: the Morphe patch bundle Gradle project.
-
-### Extension files
-
 - `icons/`: Extension icon source and generated PNG assets.
 - `scripts/build-extension-zip.js`: Chrome Web Store ZIP builder.
 - `scripts/compare-x-dom.js`: Optional CDP helper for manually comparing direct status DOM
@@ -137,3 +130,9 @@ the patched app logs.
   extension.
 - `store-assets/`: Sanitized listing captures, editable listing pages, and generated Chrome
   Web Store images.
+- `android-patch/patches/`: the Morphe patch (Kotlin) that hooks
+  `OkHttpClient.Builder.build()`.
+- `android-patch/extensions/extension/src/main/java/app/xagefixer/extension/`: the code added
+  to X: the OkHttp interceptor and the Android JSON normalization.
+- `android-patch/patches-bundle.json`: the patch source Morphe Manager reads.
+- `android-patch/`: the Morphe patch bundle Gradle project.
