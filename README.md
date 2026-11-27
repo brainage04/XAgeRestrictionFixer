@@ -10,11 +10,15 @@ so X's normal media players can run.
 
 ## Install in Chrome
 
-There is no Chrome Web Store listing yet, so it is installed by hand, which takes about a
-minute:
+Install it from the
+[Chrome Web Store](https://chromewebstore.google.com/detail/x-age-restriction-fixer/oblgbmaagbacpaelmackcdmpklkmdjag),
+then open, or reload, x.com.
 
-1. Click the green **Code** button on this page, choose **Download ZIP**, and unzip the
-   folder somewhere you will keep it.
+To install it by hand instead, which takes about a minute:
+
+1. Download `x-age-restriction-fixer-<version>.zip` from the newest extension release on the
+   [Releases](https://github.com/brainage04/XAgeRestrictionFixer/releases) page, and unzip it
+   somewhere you will keep it.
 2. In Chrome, type `chrome://extensions` in the address bar and press Enter.
 3. Turn on **Developer mode** with the switch in the top-right corner.
 4. Drag the unzipped folder onto that page. The extension appears in the list, switched on.
